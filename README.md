@@ -21,14 +21,14 @@ WarmUp solves *cold starts* by creating a scheduled lambda (the warmer) that inv
 Install via npm in the root of your Serverless service:
 
 ```sh
-npm install --save-dev serverless-plugin-warmup
+npm install --save-dev https://github.com/josfh2005/serverless-plugin-warmup-v2.git#sls-v2.x
 ```
 
 Add the plugin to the `plugins` array in your Serverless `serverless.yaml`:
 
 ```yaml
 plugins:
-  - serverless-plugin-warmup
+  - serverless-plugin-warmup-v2
 ```
 
 ## Configuration
@@ -64,7 +64,7 @@ The options are the same for all the warmers:
 * **tags** Tag to apply to the generated warmer lambda (defaults to the serverless default tags)
 * **vpc** The VPC and subnets in which to deploy. Can be any [Serverless VPC configuration](https://serverless.com/framework/docs/providers/aws/guide/functions#vpc-configuration) or be set to `false` in order to deploy the warmup function outside of a VPC (defaults to the vpc in the provider)
 * **memorySize** The memory to be assigned to the warmer lambda (defaults to `128`)
-* **runtime** The runtime to be assigned to the warmer lambda (defaults to `nodejs14.x`)
+* **runtime** The runtime to be assigned to the warmer lambda (defaults to `nodejs24.x`)
 * **events** The event that triggers the warmer lambda. Can be any [Serverless event](https://serverless.com/framework/docs/providers/aws/events/) (defaults to `- schedule: rate(5 minutes)`)
 * **package** The package configuration. Can be any [Serverless package configuration](https://serverless.com/framework/docs/providers/aws/guide/packaging#package-configuration) (defaults to `{ individually: true, patterns: ['!**', '.warmup/${warmerName}/**'] }`)
 * **timeout** How many seconds until the warmer lambda times out. (defaults to `10`)
@@ -92,7 +92,7 @@ custom:
       memorySize: 256
       name: warmer-default
       role: WarmupRole
-      runtime: nodejs14.x
+      runtime: nodejs24.x
       tags:
         Project: foo
         Owner: bar 
@@ -252,7 +252,7 @@ The permissions can also be added to all lambdas using setting the role to `IamR
 ```yaml
 provider:
   name: aws
-  runtime: nodejs14.x
+  runtime: nodejs24.x
   iamRoleStatements:
     - Effect: 'Allow'
       Action:

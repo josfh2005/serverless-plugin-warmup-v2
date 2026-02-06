@@ -143,7 +143,7 @@ function getConfigsByWarmer(service, stage) {
     folderName: path.join('.warmup', warmerName),
     cleanFolder: true,
     memorySize: 128,
-    runtime: "nodejs14.x",
+    runtime: "nodejs24.x",
     name: `${service.service}-${stage}-warmup-plugin-${warmerName}`,
     events: [{ schedule: 'rate(5 minutes)' }],
     package: {
