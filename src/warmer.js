@@ -218,7 +218,7 @@ function addWarmUpFunctionToService(service, warmerName, warmerConfig) {
     handler: warmerConfig.pathHandler.split(path.sep).join(path.posix.sep),
     memorySize: warmerConfig.memorySize,
     name: warmerConfig.name,
-    runtime: warmerConfig.runtime || 'nodejs14.x',
+    runtime: warmerConfig.runtime,
     package: warmerConfig.package,
     timeout: warmerConfig.timeout,
     ...(Object.keys(warmerConfig.environment).length

@@ -36,6 +36,7 @@ function getWarmerConfig(config, defaultOpts) {
         patterns: ['!**', ...defaultOpts.package.patterns, path.join(folderName, '**')],
       },
     memorySize: (config.memorySize !== undefined) ? config.memorySize : defaultOpts.memorySize,
+    runtime: (config.runtime !== undefined) ? config.runtime : defaultOpts.runtime,
     timeout: (config.timeout !== undefined) ? config.timeout : defaultOpts.timeout,
     environment: (config.environment !== undefined)
       ? config.environment
@@ -142,6 +143,7 @@ function getConfigsByWarmer(service, stage) {
     folderName: path.join('.warmup', warmerName),
     cleanFolder: true,
     memorySize: 128,
+    runtime: "nodejs14.x",
     name: `${service.service}-${stage}-warmup-plugin-${warmerName}`,
     events: [{ schedule: 'rate(5 minutes)' }],
     package: {
