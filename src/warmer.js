@@ -132,15 +132,11 @@ async function createWarmUpFunctionArtifact(functions, tracing, region, handlerF
 
 ${tracing
     ? `const AWSXRay = require('aws-xray-sdk-core');
-const AWS = AWSXRay.captureAWS(require('aws-sdk'));`
-    : 'const AWS = require(\'aws-sdk\')'};
-const lambda = new AWS.Lambda({
-  apiVersion: '2015-03-31',
-  region: '${region}',
-  httpOptions: {
-    connectTimeout: 1000, // 1 second
-  },
-});
+const { LambdaClient, InvokeCommand } = require('@aws-sdk/client-lambda');
+const lambda = AWSXRay.captureAWSv3Client(new LambdaClient({ region: '${region}' }));`
+    : `const { LambdaClient, InvokeCommand } = require('@aws-sdk/client-lambda');
+const lambda = new LambdaClient({ region: '${region}' });`}
+
 const functions = ${JSON.stringify(functions, null, '  ')};
 
 function getConcurrency(func, envVars) {
@@ -185,7 +181,7 @@ module.exports.warmUp = async (event, context) => {
     };
 
     try {
-      await Promise.all(Array(concurrency).fill(0).map(async () => await lambda.invoke(params).promise()));
+      await Promise.all(Array(concurrency).fill(0).map(async () => await lambda.send(new InvokeCommand(params))));
       console.log(\`Warm Up Invoke Success: \${func.name}\`);
       return true;
     } catch (e) {
