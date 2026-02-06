@@ -64,6 +64,7 @@ The options are the same for all the warmers:
 * **tags** Tag to apply to the generated warmer lambda (defaults to the serverless default tags)
 * **vpc** The VPC and subnets in which to deploy. Can be any [Serverless VPC configuration](https://serverless.com/framework/docs/providers/aws/guide/functions#vpc-configuration) or be set to `false` in order to deploy the warmup function outside of a VPC (defaults to the vpc in the provider)
 * **memorySize** The memory to be assigned to the warmer lambda (defaults to `128`)
+* **runtime** The runtime to be assigned to the warmer lambda (defaults to `node14.x`)
 * **events** The event that triggers the warmer lambda. Can be any [Serverless event](https://serverless.com/framework/docs/providers/aws/events/) (defaults to `- schedule: rate(5 minutes)`)
 * **package** The package configuration. Can be any [Serverless package configuration](https://serverless.com/framework/docs/providers/aws/guide/packaging#package-configuration) (defaults to `{ individually: true, patterns: ['!**', '.warmup/${warmerName}/**'] }`)
 * **timeout** How many seconds until the warmer lambda times out. (defaults to `10`)
@@ -91,6 +92,7 @@ custom:
       memorySize: 256
       name: warmer-default
       role: WarmupRole
+      runtime: node18.x
       tags:
         Project: foo
         Owner: bar 
